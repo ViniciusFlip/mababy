@@ -1,0 +1,287 @@
+ <!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-slate-950 text-white min-h-screen">
+
+<main class="max-w-md mx-auto min-h-screen">
+
+  <header class="p-5 border-b border-white/10">
+    <p class="text-xs text-slate-400">Família</p>
+    <h1 class="text-xl font-bold">Nossa Filha</h1>
+  </header>
+
+  <section class="p-4 grid grid-cols-2 gap-3">
+
+    <button onclick="abrir('Agenda')"
+      class="p-5 rounded-2xl bg-blue-600 text-left">
+      <p class="text-2xl">📅</p>
+      <p class="font-bold mt-3">Agenda</p>
+      <p class="text-xs text-blue-100">Compromissos</p>
+    </button>
+
+    <button onclick="abrir('Despesa')"
+      class="p-5 rounded-2xl bg-slate-900 border border-white/10 text-left">
+      <p class="text-2xl">💰</p>
+      <p class="font-bold mt-3">Despesas</p>
+      <p class="text-xs text-slate-400">Gastos da filha</p>
+    </button>
+
+    <button onclick="abrir('Mensagem')"
+      class="p-5 rounded-2xl bg-slate-900 border border-white/10 text-left">
+      <p class="text-2xl">💬</p>
+      <p class="font-bold mt-3">Comunicação</p>
+      <p class="text-xs text-slate-400">Registrar informação</p>
+    </button>
+
+    <button onclick="abrir('Responsabilidade')"
+      class="p-5 rounded-2xl bg-slate-900 border border-white/10 text-left">
+      <p class="text-2xl">✓</p>
+      <p class="font-bold mt-3">Responsabilidade</p>
+      <p class="text-xs text-slate-400">Quem ficou responsável</p>
+    </button>
+
+  </section>
+
+  <section class="px-4 pb-8">
+
+    <div class="flex justify-between items-center mb-3">
+      <h2 class="font-bold">Atividade</h2>
+      <span class="text-xs text-slate-500">Tempo real</span>
+    </div>
+
+    <div id="feed" class="space-y-2"></div>
+
+  </section>
+
+</main>
+
+<div id="modal"
+  class="hidden fixed inset-0 bg-black/70 p-4 items-end sm:items-center justify-center">
+
+  <div class="bg-slate-900 w-full max-w-md rounded-3xl p-5">
+
+    <div class="flex justify-between items-center mb-5">
+      <h2 id="titulo" class="text-lg font-bold"></h2>
+
+      <button onclick="fechar()" class="text-2xl text-slate-400">
+        ×
+      </button>
+    </div>
+
+    <form id="form" class="space-y-3">
+
+      <input
+        id="nome"
+        required
+        placeholder="Seu nome"
+        class="w-full p-4 rounded-xl bg-slate-800 outline-none">
+
+      <textarea
+        id="texto"
+        required
+        placeholder="Digite a informação..."
+        rows="4"
+        class="w-full p-4 rounded-xl bg-slate-800 outline-none resize-none"></textarea>
+
+      <button
+        class="w-full p-4 rounded-xl bg-blue-600 font-bold">
+        Registrar
+      </button>
+
+    </form>
+
+  </div>
+</div>
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  serverTimestamp,
+  onSnapshot,
+  query,
+  orderBy
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
+/* =========================
+   FIREBASE
+========================= */
+
+const firebaseConfig = {
+
+  apiKey: "SUA_API_KEY",
+  authDomain: "SEU_PROJETO.firebaseapp.com",
+  projectId: "SEU_PROJECT_ID",
+  storageBucket: "SEU_BUCKET",
+  messagingSenderId: "SEU_SENDER_ID",
+  appId: "SEU_APP_ID"
+
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+
+/* =========================
+   APP
+========================= */
+
+let tipo = "";
+
+const modal = document.getElementById("modal");
+const form = document.getElementById("form");
+const titulo = document.getElementById("titulo");
+const nome = document.getElementById("nome");
+const texto = document.getElementById("texto");
+const feed = document.getElementById("feed");
+
+
+window.abrir = function(tipoSelecionado) {
+
+  tipo = tipoSelecionado;
+
+  titulo.textContent = tipoSelecionado;
+
+  modal.classList.remove("hidden");
+  modal.classList.add("flex");
+
+  nome.focus();
+
+};
+
+
+window.fechar = function() {
+
+  modal.classList.add("hidden");
+  modal.classList.remove("flex");
+
+  form.reset();
+
+};
+
+
+form.addEventListener("submit", async (e) => {
+
+  e.preventDefault();
+
+  try {
+
+    await addDoc(collection(db, "familia"), {
+
+      nome: nome.value.trim(),
+
+      tipo: tipo,
+
+      mensagem: texto.value.trim(),
+
+      criadoEm: serverTimestamp()
+
+    });
+
+    fechar();
+
+  } catch (erro) {
+
+    console.error("Erro ao salvar:", erro);
+    alert("Não foi possível registrar.");
+
+  }
+
+});
+
+
+/* =========================
+   FIRESTORE → TELA
+========================= */
+
+const q = query(
+  collection(db, "familia"),
+  orderBy("criadoEm", "desc")
+);
+
+onSnapshot(q, (snapshot) => {
+
+  feed.innerHTML = "";
+
+  if (snapshot.empty) {
+
+    feed.innerHTML = `
+      <div class="p-4 rounded-xl bg-slate-900 border border-white/10">
+        <p class="text-sm text-slate-400">
+          Nenhuma atividade registrada.
+        </p>
+      </div>
+    `;
+
+    return;
+
+  }
+
+  snapshot.forEach((doc) => {
+
+    const item = doc.data();
+
+    const data = item.criadoEm?.toDate();
+
+    const horario = data
+      ? data.toLocaleString("pt-BR", {
+          day: "2-digit",
+          month: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit"
+        })
+      : "agora";
+
+    feed.innerHTML += `
+
+      <article class="p-4 rounded-2xl bg-slate-900 border border-white/10">
+
+        <div class="flex justify-between items-start gap-3">
+
+          <div>
+
+            <p class="font-semibold">
+              ${item.nome || "Usuário"}
+            </p>
+
+            <p class="text-xs text-blue-400 mt-1">
+              ${item.tipo}
+            </p>
+
+          </div>
+
+          <span class="text-[10px] text-slate-500">
+            ${horario}
+          </span>
+
+        </div>
+
+        <p class="text-sm text-slate-300 mt-3">
+          ${item.mensagem}
+        </p>
+
+      </article>
+
+    `;
+
+  });
+
+});
+
+</script>
+
+</body>
+</html>
+ 
