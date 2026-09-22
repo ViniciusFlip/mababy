@@ -1,282 +1,398 @@
- <!DOCTYPE html>
+```html
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script src="https://cdn.tailwindcss.com"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body class="bg-slate-950 text-white min-h-screen">
 
-<main class="max-w-md mx-auto min-h-screen">
+<!-- LOGIN -->
+<div id="login" class="min-h-screen flex items-center justify-center p-6">
 
-  <header class="p-5 border-b border-white/10">
-    <p class="text-xs text-slate-400">Família</p>
-    <h1 class="text-xl font-bold">Nossa Filha</h1>
-  </header>
+  <div class="w-full max-w-sm text-center">
 
-  <section class="p-4 grid grid-cols-2 gap-3">
-
-    <button onclick="abrir('Agenda')"
-      class="p-5 rounded-2xl bg-blue-600 text-left">
-      <p class="text-2xl">📅</p>
-      <p class="font-bold mt-3">Agenda</p>
-      <p class="text-xs text-blue-100">Compromissos</p>
-    </button>
-
-    <button onclick="abrir('Despesa')"
-      class="p-5 rounded-2xl bg-slate-900 border border-white/10 text-left">
-      <p class="text-2xl">💰</p>
-      <p class="font-bold mt-3">Despesas</p>
-      <p class="text-xs text-slate-400">Gastos da filha</p>
-    </button>
-
-    <button onclick="abrir('Mensagem')"
-      class="p-5 rounded-2xl bg-slate-900 border border-white/10 text-left">
-      <p class="text-2xl">💬</p>
-      <p class="font-bold mt-3">Comunicação</p>
-      <p class="text-xs text-slate-400">Registrar informação</p>
-    </button>
-
-    <button onclick="abrir('Responsabilidade')"
-      class="p-5 rounded-2xl bg-slate-900 border border-white/10 text-left">
-      <p class="text-2xl">✓</p>
-      <p class="font-bold mt-3">Responsabilidade</p>
-      <p class="text-xs text-slate-400">Quem ficou responsável</p>
-    </button>
-
-  </section>
-
-  <section class="px-4 pb-8">
-
-    <div class="flex justify-between items-center mb-3">
-      <h2 class="font-bold">Atividade</h2>
-      <span class="text-xs text-slate-500">Tempo real</span>
+    <div class="w-16 h-16 mx-auto mb-5 rounded-2xl bg-blue-600 flex items-center justify-center text-2xl">
+      👧
     </div>
 
-    <div id="feed" class="space-y-2"></div>
+    <h1 class="text-2xl font-bold">Nossa Filha</h1>
 
-  </section>
+    <p class="text-sm text-slate-400 mt-2 mb-8">
+      Comunicação e responsabilidades
+    </p>
+
+    <button id="google"
+      class="w-full p-4 rounded-2xl bg-white text-black font-semibold">
+      Entrar com Google
+    </button>
+
+    <p id="erro" class="text-red-400 text-sm mt-4"></p>
+
+  </div>
+
+</div>
+
+
+<!-- APP -->
+<main id="app" class="hidden max-w-md mx-auto min-h-screen">
+
+<header class="p-5 border-b border-white/10 flex justify-between items-center">
+
+  <div>
+    <p class="text-xs text-slate-400">Família</p>
+    <h1 class="text-xl font-bold">Nossa Filha</h1>
+    <p id="usuario" class="text-xs text-blue-400 mt-1"></p>
+  </div>
+
+  <button id="sair"
+    class="text-xs text-slate-400">
+    Sair
+  </button>
+
+</header>
+
+
+<section class="p-4 grid grid-cols-2 gap-3">
+
+<button onclick="abrir('Agenda')"
+class="p-5 rounded-2xl bg-blue-600 text-left">
+<p class="text-2xl">📅</p>
+<p class="font-bold mt-3">Agenda</p>
+<p class="text-xs text-blue-100">Compromissos</p>
+</button>
+
+<button onclick="abrir('Despesa')"
+class="p-5 rounded-2xl bg-slate-900 border border-white/10 text-left">
+<p class="text-2xl">💰</p>
+<p class="font-bold mt-3">Despesas</p>
+<p class="text-xs text-slate-400">Gastos da filha</p>
+</button>
+
+<button onclick="abrir('Mensagem')"
+class="p-5 rounded-2xl bg-slate-900 border border-white/10 text-left">
+<p class="text-2xl">💬</p>
+<p class="font-bold mt-3">Comunicação</p>
+<p class="text-xs text-slate-400">Registrar informação</p>
+</button>
+
+<button onclick="abrir('Responsabilidade')"
+class="p-5 rounded-2xl bg-slate-900 border border-white/10 text-left">
+<p class="text-2xl">✓</p>
+<p class="font-bold mt-3">Responsabilidade</p>
+<p class="text-xs text-slate-400">Quem ficou responsável</p>
+</button>
+
+</section>
+
+
+<section class="px-4 pb-8">
+
+<div class="flex justify-between items-center mb-3">
+<h2 class="font-bold">Atividade</h2>
+<span class="text-xs text-slate-500">Tempo real</span>
+</div>
+
+<div id="feed" class="space-y-2"></div>
+
+</section>
 
 </main>
 
+
+<!-- MODAL -->
+
 <div id="modal"
-  class="hidden fixed inset-0 bg-black/70 p-4 items-end sm:items-center justify-center">
+class="hidden fixed inset-0 bg-black/70 p-4 items-end sm:items-center justify-center">
 
-  <div class="bg-slate-900 w-full max-w-md rounded-3xl p-5">
+<div class="bg-slate-900 w-full max-w-md rounded-3xl p-5">
 
-    <div class="flex justify-between items-center mb-5">
-      <h2 id="titulo" class="text-lg font-bold"></h2>
+<div class="flex justify-between items-center mb-5">
 
-      <button onclick="fechar()" class="text-2xl text-slate-400">
-        ×
-      </button>
-    </div>
+<h2 id="titulo" class="text-lg font-bold"></h2>
 
-    <form id="form" class="space-y-3">
+<button onclick="fechar()"
+class="text-2xl text-slate-400">
+×
+</button>
 
-      <input
-        id="nome"
-        required
-        placeholder="Seu nome"
-        class="w-full p-4 rounded-xl bg-slate-800 outline-none">
-
-      <textarea
-        id="texto"
-        required
-        placeholder="Digite a informação..."
-        rows="4"
-        class="w-full p-4 rounded-xl bg-slate-800 outline-none resize-none"></textarea>
-
-      <button
-        class="w-full p-4 rounded-xl bg-blue-600 font-bold">
-        Registrar
-      </button>
-
-    </form>
-
-  </div>
 </div>
+
+<form id="form" class="space-y-3">
+
+<textarea
+id="texto"
+required
+placeholder="Digite a informação..."
+rows="4"
+class="w-full p-4 rounded-xl bg-slate-800 outline-none resize-none"></textarea>
+
+<button
+class="w-full p-4 rounded-xl bg-blue-600 font-bold">
+Registrar
+</button>
+
+</form>
+
+</div>
+</div>
+
 
 <script type="module">
 
-import { initializeApp }
+import {initializeApp}
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
 import {
-  getFirestore,
-  collection,
-  addDoc,
-  serverTimestamp,
-  onSnapshot,
-  query,
-  orderBy
+getFirestore,
+collection,
+addDoc,
+setDoc,
+doc,
+serverTimestamp,
+onSnapshot,
+query,
+orderBy
 }
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-
-/* =========================
-   FIREBASE
-========================= */
-
-const firebaseConfig = {
-
-apiKey: "AIzaSyC4cm0X3mkkrw7eJL_omUoYsd9FNokc-Ik",
-  authDomain: "mababy-3cc1a.firebaseapp.com",
-  projectId: "mababy-3cc1a",
-  storageBucket: "mababy-3cc1a.firebasestorage.app",
-  messagingSenderId: "345205459376",
-  appId: "1:345205459376:web:c2872657f251a12e5fee75"
-
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+import {
+getAuth,
+GoogleAuthProvider,
+signInWithPopup,
+onAuthStateChanged,
+signOut
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 
-/* =========================
-   APP
-========================= */
+/* FIREBASE */
 
-let tipo = "";
+const firebaseConfig={
 
-const modal = document.getElementById("modal");
-const form = document.getElementById("form");
-const titulo = document.getElementById("titulo");
-const nome = document.getElementById("nome");
-const texto = document.getElementById("texto");
-const feed = document.getElementById("feed");
-
-
-window.abrir = function(tipoSelecionado) {
-
-  tipo = tipoSelecionado;
-
-  titulo.textContent = tipoSelecionado;
-
-  modal.classList.remove("hidden");
-  modal.classList.add("flex");
-
-  nome.focus();
+apiKey:"AIzaSyC4cm0X3mkkrw7eJL_omUoYsd9FNokc-Ik",
+authDomain:"mababy-3cc1a.firebaseapp.com",
+projectId:"mababy-3cc1a",
+storageBucket:"mababy-3cc1a.firebasestorage.app",
+messagingSenderId:"345205459376",
+appId:"1:345205459376:web:c2872657f251a12e5fee75"
 
 };
 
+const app=initializeApp(firebaseConfig);
+const db=getFirestore(app);
+const auth=getAuth(app);
+const googleProvider=new GoogleAuthProvider();
 
-window.fechar = function() {
 
-  modal.classList.add("hidden");
-  modal.classList.remove("flex");
+/* ELEMENTOS */
 
-  form.reset();
+const login=document.getElementById("login");
+const appTela=document.getElementById("app");
+const google=document.getElementById("google");
+const erro=document.getElementById("erro");
+const usuario=document.getElementById("usuario");
+const sair=document.getElementById("sair");
+
+const modal=document.getElementById("modal");
+const form=document.getElementById("form");
+const titulo=document.getElementById("titulo");
+const texto=document.getElementById("texto");
+const feed=document.getElementById("feed");
+
+let tipo="";
+
+
+/* LOGIN GOOGLE */
+
+google.onclick=async()=>{
+
+try{
+
+erro.textContent="Entrando...";
+
+await signInWithPopup(auth,googleProvider);
+
+}catch(e){
+
+console.error(e);
+erro.textContent="Não foi possível entrar.";
+
+}
 
 };
 
 
-form.addEventListener("submit", async (e) => {
+/* SESSÃO */
 
-  e.preventDefault();
+onAuthStateChanged(auth,async user=>{
 
-  try {
+if(user){
 
-    await addDoc(collection(db, "familia"), {
+login.classList.add("hidden");
+appTela.classList.remove("hidden");
 
-      nome: nome.value.trim(),
+usuario.textContent=user.displayName;
 
-      tipo: tipo,
+await setDoc(
+doc(db,"usuarios",user.uid),
+{
+nome:user.displayName,
+email:user.email,
+foto:user.photoURL,
+atualizadoEm:serverTimestamp()
+},
+{merge:true}
+);
 
-      mensagem: texto.value.trim(),
+}else{
 
-      criadoEm: serverTimestamp()
+appTela.classList.add("hidden");
+login.classList.remove("hidden");
 
-    });
-
-    fechar();
-
-  } catch (erro) {
-
-    console.error("Erro ao salvar:", erro);
-    alert("Não foi possível registrar.");
-
-  }
+}
 
 });
 
 
-/* =========================
-   FIRESTORE → TELA
-========================= */
+/* SAIR */
 
-const q = query(
-  collection(db, "familia"),
-  orderBy("criadoEm", "desc")
+sair.onclick=()=>signOut(auth);
+
+
+/* MODAL */
+
+window.abrir=t=>{
+
+tipo=t;
+titulo.textContent=t;
+
+modal.classList.remove("hidden");
+modal.classList.add("flex");
+
+texto.focus();
+
+};
+
+
+window.fechar=()=>{
+
+modal.classList.add("hidden");
+modal.classList.remove("flex");
+
+form.reset();
+
+};
+
+
+/* REGISTRAR */
+
+form.onsubmit=async e=>{
+
+e.preventDefault();
+
+const user=auth.currentUser;
+
+if(!user)return;
+
+try{
+
+await addDoc(
+collection(db,"familia"),
+{
+uid:user.uid,
+nome:user.displayName,
+tipo,
+mensagem:texto.value.trim(),
+criadoEm:serverTimestamp()
+}
 );
 
-onSnapshot(q, (snapshot) => {
+fechar();
 
-  feed.innerHTML = "";
+}catch(e){
 
-  if (snapshot.empty) {
+console.error(e);
+alert("Erro ao registrar.");
 
-    feed.innerHTML = `
-      <div class="p-4 rounded-xl bg-slate-900 border border-white/10">
-        <p class="text-sm text-slate-400">
-          Nenhuma atividade registrada.
-        </p>
-      </div>
-    `;
+}
 
-    return;
+};
 
-  }
 
-  snapshot.forEach((doc) => {
+/* FEED */
 
-    const item = doc.data();
+const q=query(
+collection(db,"familia"),
+orderBy("criadoEm","desc")
+);
 
-    const data = item.criadoEm?.toDate();
+onSnapshot(q,snapshot=>{
 
-    const horario = data
-      ? data.toLocaleString("pt-BR", {
-          day: "2-digit",
-          month: "2-digit",
-          hour: "2-digit",
-          minute: "2-digit"
-        })
-      : "agora";
+feed.innerHTML="";
 
-    feed.innerHTML += `
+if(snapshot.empty){
 
-      <article class="p-4 rounded-2xl bg-slate-900 border border-white/10">
+feed.innerHTML=`
+<div class="p-4 rounded-xl bg-slate-900 border border-white/10">
+<p class="text-sm text-slate-400">
+Nenhuma atividade registrada.
+</p>
+</div>`;
 
-        <div class="flex justify-between items-start gap-3">
+return;
 
-          <div>
+}
 
-            <p class="font-semibold">
-              ${item.nome || "Usuário"}
-            </p>
+snapshot.forEach(d=>{
 
-            <p class="text-xs text-blue-400 mt-1">
-              ${item.tipo}
-            </p>
+const x=d.data();
+const data=x.criadoEm?.toDate();
 
-          </div>
+const hora=data
+?data.toLocaleString("pt-BR",{
+day:"2-digit",
+month:"2-digit",
+hour:"2-digit",
+minute:"2-digit"
+})
+:"agora";
 
-          <span class="text-[10px] text-slate-500">
-            ${horario}
-          </span>
+feed.innerHTML+=`
 
-        </div>
+<article class="p-4 rounded-2xl bg-slate-900 border border-white/10">
 
-        <p class="text-sm text-slate-300 mt-3">
-          ${item.mensagem}
-        </p>
+<div class="flex justify-between gap-3">
 
-      </article>
+<div>
 
-    `;
+<p class="font-semibold">
+${x.nome||"Usuário"}
+</p>
 
-  });
+<p class="text-xs text-blue-400 mt-1">
+${x.tipo}
+</p>
+
+</div>
+
+<span class="text-[10px] text-slate-500">
+${hora}
+</span>
+
+</div>
+
+<p class="text-sm text-slate-300 mt-3">
+${x.mensagem}
+</p>
+
+</article>
+
+`;
+
+});
 
 });
 
@@ -284,4 +400,4 @@ onSnapshot(q, (snapshot) => {
 
 </body>
 </html>
- 
+```
