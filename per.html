@@ -1,0 +1,721 @@
+```html
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<script src="https://cdn.tailwindcss.com"></script>
+
+<script>
+tailwind.config={
+  theme:{
+    extend:{
+      colors:{
+        pearl:{
+          50:"#FCFBFA",
+          100:"#F7F5F3",
+          200:"#EEEAEF",
+          300:"#DDD7E3",
+          400:"#C7C0D0",
+          500:"#A79DB5",
+          600:"#8B7FA8",
+          700:"#716681",
+          800:"#50495B",
+          900:"#2B2830"
+        }
+      },
+      boxShadow:{
+        pearl:"0 12px 40px rgba(80,73,91,.10)",
+        soft:"0 4px 20px rgba(80,73,91,.07)"
+      }
+    }
+  }
+}
+</script>
+</head>
+
+<body class="bg-pearl-100 text-pearl-900 min-h-screen">
+
+<!-- LOGIN -->
+
+<div id="login"
+class="min-h-screen flex items-center justify-center p-6">
+
+  <div class="w-full max-w-sm text-center">
+
+    <div
+    class="w-20 h-20 mx-auto mb-6 rounded-[28px]
+    bg-gradient-to-br from-white via-pearl-200 to-pearl-400
+    border border-white shadow-pearl
+    flex items-center justify-center">
+
+      <span class="text-3xl">◌</span>
+
+    </div>
+
+    <p class="text-xs uppercase tracking-[.25em] text-pearl-600 mb-2">
+      Família
+    </p>
+
+    <h1 class="text-3xl font-semibold tracking-tight">
+      Nossa Filha
+    </h1>
+
+    <p class="text-sm text-pearl-700 mt-3 mb-8">
+      Comunicação, cuidado e responsabilidades.
+    </p>
+
+    <button
+    id="google"
+    class="w-full p-4 rounded-2xl
+    bg-white border border-pearl-300
+    shadow-soft
+    font-semibold
+    hover:shadow-pearl
+    transition">
+
+      <span class="mr-2">G</span>
+      Entrar com Google
+
+    </button>
+
+    <p id="erro"
+    class="text-sm text-red-500 mt-4">
+    </p>
+
+  </div>
+
+</div>
+
+
+<!-- APP -->
+
+<main
+id="app"
+class="hidden max-w-md mx-auto min-h-screen bg-pearl-50">
+
+
+<!-- HEADER -->
+
+<header
+class="p-5 border-b border-pearl-300/70
+bg-white/80 backdrop-blur">
+
+  <div class="flex justify-between items-center">
+
+    <div>
+
+      <p class="text-[10px] uppercase tracking-[.22em] text-pearl-600">
+        Família
+      </p>
+
+      <h1 class="text-xl font-semibold mt-1">
+        Nossa Filha
+      </h1>
+
+      <p
+      id="usuario"
+      class="text-xs text-pearl-600 mt-1">
+      </p>
+
+    </div>
+
+    <button
+    id="sair"
+    class="px-3 py-2 rounded-xl
+    text-xs text-pearl-700
+    bg-pearl-100
+    border border-pearl-300
+    hover:bg-pearl-200 transition">
+
+      Sair
+
+    </button>
+
+  </div>
+
+</header>
+
+
+<!-- AÇÕES -->
+
+<section class="p-4 grid grid-cols-2 gap-3">
+
+
+<button
+onclick="abrir('Agenda')"
+class="p-5 rounded-3xl text-left
+bg-gradient-to-br from-white to-pearl-200
+border border-pearl-300
+shadow-soft
+hover:shadow-pearl
+transition">
+
+  <div
+  class="w-10 h-10 rounded-2xl
+  bg-pearl-600 text-white
+  flex items-center justify-center
+  text-lg">
+
+    ◷
+
+  </div>
+
+  <p class="font-semibold mt-4">
+    Agenda
+  </p>
+
+  <p class="text-xs text-pearl-700 mt-1">
+    Compromissos
+  </p>
+
+</button>
+
+
+<button
+onclick="abrir('Despesa')"
+class="p-5 rounded-3xl text-left
+bg-white
+border border-pearl-300
+shadow-soft
+hover:shadow-pearl
+transition">
+
+  <div
+  class="w-10 h-10 rounded-2xl
+  bg-pearl-200 text-pearl-700
+  flex items-center justify-center
+  text-lg">
+
+    ◇
+
+  </div>
+
+  <p class="font-semibold mt-4">
+    Despesas
+  </p>
+
+  <p class="text-xs text-pearl-700 mt-1">
+    Gastos da filha
+  </p>
+
+</button>
+
+
+<button
+onclick="abrir('Mensagem')"
+class="p-5 rounded-3xl text-left
+bg-white
+border border-pearl-300
+shadow-soft
+hover:shadow-pearl
+transition">
+
+  <div
+  class="w-10 h-10 rounded-2xl
+  bg-pearl-200 text-pearl-700
+  flex items-center justify-center
+  text-lg">
+
+    ~
+
+  </div>
+
+  <p class="font-semibold mt-4">
+    Comunicação
+  </p>
+
+  <p class="text-xs text-pearl-700 mt-1">
+    Registrar informação
+  </p>
+
+</button>
+
+
+<button
+onclick="abrir('Responsabilidade')"
+class="p-5 rounded-3xl text-left
+bg-white
+border border-pearl-300
+shadow-soft
+hover:shadow-pearl
+transition">
+
+  <div
+  class="w-10 h-10 rounded-2xl
+  bg-pearl-200 text-pearl-700
+  flex items-center justify-center
+  text-lg">
+
+    ✓
+
+  </div>
+
+  <p class="font-semibold mt-4">
+    Responsabilidade
+  </p>
+
+  <p class="text-xs text-pearl-700 mt-1">
+    Quem ficou responsável
+  </p>
+
+</button>
+
+</section>
+
+
+<!-- ATIVIDADE -->
+
+<section class="px-4 pb-8">
+
+  <div
+  class="flex justify-between items-end mb-4">
+
+    <div>
+
+      <p class="text-[10px] uppercase tracking-[.2em] text-pearl-600">
+        Histórico
+      </p>
+
+      <h2 class="font-semibold text-lg mt-1">
+        Atividade
+      </h2>
+
+    </div>
+
+    <span
+    class="text-[10px] text-pearl-600
+    bg-pearl-200 px-3 py-1.5 rounded-full">
+
+      Tempo real
+
+    </span>
+
+  </div>
+
+
+  <div
+  id="feed"
+  class="space-y-3">
+  </div>
+
+</section>
+
+</main>
+
+
+<!-- MODAL -->
+
+<div
+id="modal"
+class="hidden fixed inset-0
+bg-pearl-900/30 backdrop-blur-sm
+p-4 items-end sm:items-center
+justify-center">
+
+
+<div
+class="bg-pearl-50
+w-full max-w-md
+rounded-[30px]
+p-5
+border border-white
+shadow-pearl">
+
+
+<div
+class="flex justify-between items-center mb-5">
+
+  <div>
+
+    <p
+    class="text-[10px] uppercase
+    tracking-[.2em] text-pearl-600">
+      Novo registro
+    </p>
+
+    <h2
+    id="titulo"
+    class="text-xl font-semibold mt-1">
+    </h2>
+
+  </div>
+
+
+  <button
+  onclick="fechar()"
+  class="w-9 h-9 rounded-xl
+  bg-pearl-200
+  text-pearl-700
+  text-xl">
+
+    ×
+
+  </button>
+
+</div>
+
+
+<form
+id="form"
+class="space-y-3">
+
+
+<textarea
+id="texto"
+required
+placeholder="Digite a informação..."
+rows="5"
+class="w-full p-4 rounded-2xl
+bg-white
+border border-pearl-300
+outline-none
+focus:border-pearl-600
+focus:ring-2
+focus:ring-pearl-200
+resize-none
+text-sm"></textarea>
+
+
+<button
+class="w-full p-4 rounded-2xl
+bg-pearl-700
+text-white
+font-semibold
+shadow-soft
+hover:bg-pearl-800
+transition">
+
+  Registrar
+
+</button>
+
+
+</form>
+
+</div>
+
+</div>
+
+
+<script type="module">
+
+import {initializeApp}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+getFirestore,
+collection,
+addDoc,
+setDoc,
+doc,
+serverTimestamp,
+onSnapshot,
+query,
+orderBy
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+import {
+getAuth,
+GoogleAuthProvider,
+signInWithPopup,
+onAuthStateChanged,
+signOut
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+
+/* FIREBASE */
+
+const firebaseConfig={
+
+apiKey:"AIzaSyC4cm0X3mkkrw7eJL_omUoYsd9FNokc-Ik",
+authDomain:"mababy-3cc1a.firebaseapp.com",
+projectId:"mababy-3cc1a",
+storageBucket:"mababy-3cc1a.firebasestorage.app",
+messagingSenderId:"345205459376",
+appId:"1:345205459376:web:c2872657f251a12e5fee75"
+
+};
+
+
+const app=initializeApp(firebaseConfig);
+const db=getFirestore(app);
+const auth=getAuth(app);
+const googleProvider=new GoogleAuthProvider();
+
+
+/* ELEMENTOS */
+
+const login=document.getElementById("login");
+const appTela=document.getElementById("app");
+const google=document.getElementById("google");
+const erro=document.getElementById("erro");
+const usuario=document.getElementById("usuario");
+const sair=document.getElementById("sair");
+
+const modal=document.getElementById("modal");
+const form=document.getElementById("form");
+const titulo=document.getElementById("titulo");
+const texto=document.getElementById("texto");
+const feed=document.getElementById("feed");
+
+let tipo="";
+
+
+/* LOGIN */
+
+google.onclick=async()=>{
+
+  try{
+
+    erro.textContent="Entrando...";
+
+    await signInWithPopup(
+      auth,
+      googleProvider
+    );
+
+  }catch(e){
+
+    console.error(e);
+    erro.textContent="Não foi possível entrar.";
+
+  }
+
+};
+
+
+/* SESSÃO */
+
+onAuthStateChanged(auth,async user=>{
+
+  if(user){
+
+    login.classList.add("hidden");
+    appTela.classList.remove("hidden");
+
+    usuario.textContent=user.displayName;
+
+    await setDoc(
+      doc(db,"usuarios",user.uid),
+      {
+        nome:user.displayName,
+        email:user.email,
+        foto:user.photoURL,
+        atualizadoEm:serverTimestamp()
+      },
+      {merge:true}
+    );
+
+  }else{
+
+    appTela.classList.add("hidden");
+    login.classList.remove("hidden");
+
+  }
+
+});
+
+
+/* SAIR */
+
+sair.onclick=()=>signOut(auth);
+
+
+/* MODAL */
+
+window.abrir=t=>{
+
+  tipo=t;
+
+  titulo.textContent=t;
+
+  modal.classList.remove("hidden");
+  modal.classList.add("flex");
+
+  texto.focus();
+
+};
+
+
+window.fechar=()=>{
+
+  modal.classList.add("hidden");
+  modal.classList.remove("flex");
+
+  form.reset();
+
+};
+
+
+/* REGISTRO */
+
+form.onsubmit=async e=>{
+
+  e.preventDefault();
+
+  const user=auth.currentUser;
+
+  if(!user)return;
+
+  try{
+
+    await addDoc(
+      collection(db,"familia"),
+      {
+        uid:user.uid,
+        nome:user.displayName,
+        tipo,
+        mensagem:texto.value.trim(),
+        criadoEm:serverTimestamp()
+      }
+    );
+
+    fechar();
+
+  }catch(e){
+
+    console.error(e);
+    alert("Erro ao registrar.");
+
+  }
+
+};
+
+
+/* FEED */
+
+const q=query(
+  collection(db,"familia"),
+  orderBy("criadoEm","desc")
+);
+
+
+onSnapshot(q,snapshot=>{
+
+  feed.innerHTML="";
+
+  if(snapshot.empty){
+
+    feed.innerHTML=`
+
+      <div
+      class="p-6 rounded-3xl
+      bg-white
+      border border-pearl-300
+      text-center
+      shadow-soft">
+
+        <div
+        class="w-10 h-10 mx-auto
+        rounded-full
+        bg-pearl-200
+        flex items-center justify-center
+        text-pearl-700">
+
+          ◌
+
+        </div>
+
+        <p
+        class="text-sm
+        text-pearl-700
+        mt-3">
+
+          Nenhuma atividade registrada.
+
+        </p>
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  snapshot.forEach(d=>{
+
+    const x=d.data();
+
+    const data=x.criadoEm?.toDate();
+
+    const hora=data
+      ?data.toLocaleString("pt-BR",{
+        day:"2-digit",
+        month:"2-digit",
+        hour:"2-digit",
+        minute:"2-digit"
+      })
+      :"agora";
+
+
+    feed.innerHTML+=`
+
+      <article
+      class="p-4 rounded-3xl
+      bg-white
+      border border-pearl-300
+      shadow-soft">
+
+        <div
+        class="flex justify-between
+        items-start gap-3">
+
+          <div>
+
+            <p class="font-semibold">
+              ${x.nome||"Usuário"}
+            </p>
+
+            <span
+            class="inline-block
+            text-[10px]
+            text-pearl-700
+            bg-pearl-200
+            px-2.5 py-1
+            rounded-full mt-1">
+
+              ${x.tipo}
+
+            </span>
+
+          </div>
+
+          <span
+          class="text-[10px]
+          text-pearl-500">
+
+            ${hora}
+
+          </span>
+
+        </div>
+
+
+        <p
+        class="text-sm
+        text-pearl-800
+        leading-relaxed
+        mt-4">
+
+          ${x.mensagem}
+
+        </p>
+
+      </article>
+
+    `;
+
+  });
+
+});
+
+</script>
+
+</body>
+</html>
+```
